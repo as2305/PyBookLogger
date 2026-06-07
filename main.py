@@ -54,3 +54,12 @@ with st.popover("Add Book"):
             db["books"].append(crud.new_book(title, read_checkbox, comments))
             file_path.write_text(json.dumps(db, indent = 4))
             st.rerun()
+
+with st.popover("🚨 DELETE DATABASE", type="primary"):
+    st.write("### Warning!")
+    st.write("This will delete all logs!")
+    confirm = st.text_input('Type "DELETE" to confirm.')
+    if st.button("Confirm Delete", type="primary"):
+        if confirm == "DELETE":
+            file_path.unlink(missing_ok=True)
+            st.rerun()
