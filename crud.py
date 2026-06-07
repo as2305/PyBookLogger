@@ -1,7 +1,7 @@
 import secrets
 
 def id_gen():
-    return secrets.token_hex(4)
+    return secrets.token_hex(2)
 
 def read_status(a):
     if a:

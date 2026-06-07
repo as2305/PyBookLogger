@@ -39,22 +39,27 @@ for item in db["books"]:
     with st.container(border=True):
         st.markdown(f"## {item['name']}")
         
-        c1, c2 = st.columns(2)
+        c1, c2, c3 = st.columns(3)
         c1.metric(label="Status", value=crud.read_status((item["finished"])))
         c2.metric(label="Notes", value=item["notes"])
+        c3.metric(label="ID", value=item["id"])
 
-with st.popover("Add Book"):
+with st.popover("Add Entry"):
     st.markdown("## Add New Book") 
     with st.form("book_form", clear_on_submit=True):
         title = st.text_input("Book Title")
         read_checkbox = st.checkbox("Have you finished this book?")
         comments = st.text_input("Notes")
         if st.form_submit_button("Add"):
-            st.success("Added!")
-            db["books"].append(crud.new_book(title, read_checkbox, comments))
-            file_path.write_text(json.dumps(db, indent = 4))
-            st.rerun()
+            if not title:
+                st.error("You cannot leave title empty.")
+            else:
+                st.success("Added!")
+                db["books"].append(crud.new_book(title, read_checkbox, comments))
+                file_path.write_text(json.dumps(db, indent = 4))
+                st.rerun()
 
+#Delete entire database
 with st.popover("🚨 DELETE DATABASE", type="primary"):
     st.write("### Warning!")
     st.write("This will delete all logs!")
